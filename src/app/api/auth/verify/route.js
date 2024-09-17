@@ -1,20 +1,30 @@
+// app/api/auth/verify/route.js
+import { NextResponse } from 'next/server';
 import connectMongo from '../../../../lib/mongodb';
-import User from '../../../models/User';
+import User from '../../../../models/User';
+import { useRouter } from 'next/navigation';
 
-export default async function handler(req, res) {
+export async function GET(req) {
+  const { searchParams } = new URL(req.url);
+  const token = searchParams.get('token');
+  const router = useRouter();
+
+
   await connectMongo();
-
-  const { token } = req.query;
 
   const user = await User.findOne({ emailToken: token });
 
   if (!user) {
-    return res.status(400).json({ error: 'Token invalide' });
+    console.log('token invalide')
+    return NextResponse.json({ error: 'Token invalide' }, { status: 400 });
   }
 
   user.emailToken = null;
   user.isVerified = true;
   await user.save();
 
-  res.status(200).json({ message: 'Email vérifié avec succès' });
+  console.log('Email vérifié avec succès');
+  router.push('/signin');
+  return NextResponse.json({ message: 'Email vérifié avec succès' }, { status: 200 });
+
 }
