@@ -1,14 +1,10 @@
-// app/api/auth/verify/route.js
 import { NextResponse } from 'next/server';
 import connectMongo from '../../../../lib/mongodb';
 import User from '../../../../models/User';
-import { useRouter } from 'next/navigation';
 
 export async function GET(req) {
   const { searchParams } = new URL(req.url);
   const token = searchParams.get('token');
-  const router = useRouter();
-
 
   await connectMongo();
 
@@ -23,8 +19,8 @@ export async function GET(req) {
   user.isVerified = true;
   await user.save();
 
+ //   return NextResponse.json({ message: 'Email vérifié avec succès' }, { status: 200 });
   console.log('Email vérifié avec succès');
-  router.push('/signin');
-  return NextResponse.json({ message: 'Email vérifié avec succès' }, { status: 200 });
+  return NextResponse.redirect('http://localhost:3000/signin');
 
 }
