@@ -4,6 +4,7 @@ import { NextResponse } from 'next/server';
 import connectMongo from '../../../../lib/mongodb';
 import User from '../../../../models/User';
 import crypto from 'crypto';
+import { sendVerificationEmail } from '@/lib/mail';
 
 export async function POST(req) {
   const { username, email, password } = await req.json();
@@ -31,7 +32,9 @@ export async function POST(req) {
 
   try {
     await newUser.save();
+    console.log('user create s')
     await sendVerificationEmail(email, emailToken);
+    console.log('s')
     return NextResponse.json({ message: 'Utilisateur créé avec succès' }, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: 'Erreur lors de la création de l’utilisateur' }, { status: 500 });

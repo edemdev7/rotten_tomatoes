@@ -1,7 +1,7 @@
-// pages/auth/signin.js
+'use client';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function Signin() {
   const [form, setForm] = useState({ email: '', password: '' });
@@ -17,7 +17,7 @@ export default function Signin() {
     });
 
     if (res.ok) {
-      router.push('/');
+      router.push('/home');
     } else {
       // Gérer les erreurs
       alert('Échec de la connexion');
