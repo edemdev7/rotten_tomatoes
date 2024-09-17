@@ -4,7 +4,8 @@ import connectMongo from '../../../../lib/mongodb';
 import User from '../../../../models/User';
 import bcrypt from 'bcryptjs';
 
-export default NextAuth({
+
+const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -41,13 +42,16 @@ export default NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
+        token.id = user.id;
+        token.username = user.username;
         token.isAdmin = user.isAdmin;
       }
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        session.user.id = token.sub;
+        session.user.id = token.id;
+        session.user.username = token.username; 
         session.user.isAdmin = token.isAdmin;
       }
       return session;
@@ -61,3 +65,4 @@ export default NextAuth({
   },
   secret: process.env.NEXTAUTH_SECRET,
 });
+export {handler as GET, handler as POST };

@@ -9,11 +9,10 @@ export default function Home() {
 
   useEffect(() => {
     if (status === 'authenticated') {
-      // Si l'utilisateur est un admin, le rediriger vers /admin
       if (session.user.isAdmin) {
         router.push('/admin');
       } else {
-        router.push('/home'); // Sinon, il reste sur la page d'accueil ou la redirige vers /home
+        router.push('/home'); 
       }
     }
   }, [status, session, router]);
@@ -35,7 +34,7 @@ export default function Home() {
   }
 
   return (
-    <div className="max-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg p-6">
         <div className="flex justify-between items-center mb-4">
           <h1 className="text-3xl font-bold text-gray-800">Bienvenue, {session.user.username}!</h1>

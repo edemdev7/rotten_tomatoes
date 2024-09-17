@@ -6,7 +6,7 @@ export default function Home() {
     <div>
     <h1>Bienvenue sur My Rotten Tomatoes</h1>
     <p>
-      <Link href="/signup">Inscription</Link> | <Link href="/login">Connexion</Link>
+      <Link href="/signup">Inscription</Link> | <Link href="/signin">Connexion</Link>
     </p>
   </div>
   );
